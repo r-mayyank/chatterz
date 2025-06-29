@@ -33,6 +33,7 @@
 - **[Next.js 15.3.0](https://nextjs.org/)** - React framework with App Router
 - **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
 - **[Tailwind CSS 4.1.11](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Shadcn](https://ui.shadcn.com/)** - UI components library
 - **[Radix UI](https://www.radix-ui.com/)** - Headless UI components
 - **[Socket.io-client 4.8.1](https://socket.io/)** - Real-time client-side communication
 - **[Lucide React](https://lucide.dev/)** - Beautiful icons
@@ -116,7 +117,12 @@ chatterz/
 - **Auto-scroll** to latest messages
 - **Responsive design** works on mobile and desktop
 
-## 🌟 Screenshots
+## 🌟 Future features
+- User joining message in group
+- Replying to messages
+- Attachments 
+- Voice messages
+- May bring voice and video call
 
 *Add screenshots of your application here*
 
@@ -168,8 +174,3 @@ This project is open source and available under the [MIT License](LICENSE).
 - UI components inspired by [shadcn/ui](https://ui.shadcn.com/)
 
 ---
-
-<div align="center">
-  <p>Made with ❤️ by <a href="https://github.com/yourusername">Your Name</a></p>
-  <p>⭐ Star this repo if you found it helpful!</p>
-</div>
