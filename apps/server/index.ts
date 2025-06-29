@@ -19,16 +19,14 @@ interface RoomData {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 // Create HTTP server
 const server = createServer(app);
 
 // Initialize Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: [
-            "http://localhost:3001", 
-            "https://chatterz-client-nu.vercel.app"
-        ],
+        origin: ["http://localhost:3001", "https://chatterz-client-nu.vercel.app/", "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app/", "https://chatterz-client-801yoa2wb-theluebluegaming-gmailcoms-projects.vercel.app/"],
         methods: ["GET", "POST"],
         credentials: true
     }
