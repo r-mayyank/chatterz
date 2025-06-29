@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 
-const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
+const SOCKET_URL = process.env.IS_PRODUCTION ? process.env.PRODUCTION_URL : "http://localhost:3000";
 
 const Page = () => {
   const [inputName, setInputName] = useState<string>(''); // Input for user's name
