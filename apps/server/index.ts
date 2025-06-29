@@ -28,10 +28,9 @@ const io = new Server(server, {
     cors: {
         origin: [
             "http://localhost:3001", 
+            "https://chatterz.mayankraja.tech",
             "https://chatterz-client-nu.vercel.app",
             "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app",
-            "https://chatterz-client-801yoa2wb-theluebluegaming-gmailcoms-projects.vercel.app",
-            "https://chatterz.mayankraja.tech"
         ],
         methods: ["GET", "POST"],
         credentials: true
