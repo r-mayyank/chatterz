@@ -26,14 +26,9 @@ const server = createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: [
-            "http://localhost:3001", 
-            "https://chatterz.mayankraja.tech",
-            "https://chatterz-client-nu.vercel.app",
-            "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app"
-        ],
+        origin: "*", // Temporary wildcard for testing
         methods: ["GET", "POST"],
-        credentials: true
+        credentials: false // Must be false when using wildcard
     }
 });
 
@@ -44,13 +39,10 @@ app.use(express.json());
 app.get("/", (req, res) => {
     console.log(`📡 Request from origin: ${req.headers.origin}`);
     res.json({ 
-        message: "Chatterz server is running!",
-        allowedOrigins: [
-            "http://localhost:3001", 
-            "https://chatterz.mayankraja.tech",
-            "https://chatterz-client-nu.vercel.app",
-            "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app"
-        ]
+        message: "Chatterz server is running! (Updated with wildcard CORS)",
+        timestamp: new Date().toISOString(),
+        allowedOrigins: "*",
+        requestOrigin: req.headers.origin 
     });
 });
 
