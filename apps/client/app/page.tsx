@@ -9,13 +9,6 @@ import { toast } from 'sonner'
 
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
-const socket = io(SOCKET_URL, {
-  autoConnect: true,
-  reconnection: true,
-  reconnectionDelay: 1000,
-  reconnectionAttempts: 5,
-  timeout: 20000,
-});
 
 const Page = () => {
   const [inputName, setInputName] = useState<string>(''); // Input for user's name
@@ -24,8 +17,27 @@ const Page = () => {
   const [joined, setJoined] = useState(false); // Track if user has joined the room
   const [room, setRoom] = useState<string>(''); // Room code
   const [isLoading, setIsLoading] = useState(false); // Track loading state
+  const [userSize, setUserSize] = useState(0); // Track number of users in the room
+  const [users, setUsers] = useState<string[]>([]); // Track users in the room
+  const [messages, setMessages] = useState<any[]>([]); // Store chat messages
+  const [messageInput, setMessageInput] = useState<string>(''); // Message input
+  const [currentUser, setCurrentUser] = useState<string>(''); // Current user name
+  const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
+    console.log('🔄 Initializing socket connection...');
+
+    // Create socket connection inside useEffect
+    socketRef.current = io(SOCKET_URL, {
+      autoConnect: true,
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionAttempts: 5,
+      timeout: 20000,
+    });
+
+    const socket = socketRef.current;
+
     socket.on('connect', () => {
       console.log('🟢 Connected to server:', socket.id);
       setIsConnected(true);
@@ -37,50 +49,169 @@ const Page = () => {
     });
 
     socket.on('connect_error', (error) => {
-      console.error('Connection error:', error);
+      console.error('⚠️ Connection error:', error);
       setIsConnected(false);
     })
 
     socket.on("roomCreated", (code) => {
-      setRoom(code); // Assuming room ID is the socket ID for simplicity
+      console.log('🏠 Room created:', code);
+      setRoom(code);
       setIsLoading(false);
     })
 
     socket.on('error', (e) => {
-      console.error('Socket error:', e);
+      console.error('🚨 Socket error:', e);
       toast.error(`Error: ${e.message || 'An error occurred'}`);
     })
 
     socket.on('joinedRoom', (data) => {
-      console.log('Joined room:', data);
+      console.log('✅ Joined room:', data);
+      console.log('📊 Data breakdown:', {
+        roomId: data.roomId,
+        users: data.users,
+        userSize: data.userSize, // Fixed: Changed from usersize to userSize
+        messages: data.messages // Fixed: Changed from message to messages
+      });
+      
+      // Initialize messages from room history (if any)
+      if (data.messages && Array.isArray(data.messages)) {
+        setMessages(data.messages); // Set existing messages
+      } else {
+        setMessages([]); // Initialize with empty array
+      }
+      
       setJoined(true);
+      setUserSize(data.userSize); // Fixed: Changed from usersize to userSize
+      setUsers(data.users);
+      setRoom(data.roomId);
+
+      // Use the name from the join data instead of inputName to ensure consistency
+      const userName = inputName.trim();
+      setCurrentUser(userName);
+
+      console.log('✅ State updated - userSize should be:', data.userSize);
     })
 
-    // Cleanup function
-    return () => {
-      socket.removeAllListeners();
-    };
+    socket.on('user-joined', (size) => {
+      setUserSize(size);
+      toast.success(`👤 User joined! Total users: ${size}`);
+    })
 
-  }, []);
+    socket.on('user-left', (size) => {
+      setUserSize(size);
+      toast.error(`👤 User left! Total users: ${size}`);
+    })
+
+    // Handle incoming messages
+    socket.on('message', (message) => {
+      console.log('📨 Message received:', message);
+      setMessages(prev => [...prev, message]);
+    })
+
+    // Cleanup function - runs when component unmounts
+    return () => {
+      console.log('🧹 Cleaning up socket connection...');
+      if (socketRef.current) {
+        socketRef.current.removeAllListeners();
+        socketRef.current.disconnect();
+        socketRef.current = null;
+      }
+    };
+  }, []); // Empty dependency array - runs only once
 
   const createRoom = () => {
+    if (!socketRef.current) {
+      console.error('❌ Socket not connected');
+      return;
+    }
+    console.log('📤 Emitting createRoom event...');
     setIsLoading(true);
-    socket.emit('createRoom');
+    socketRef.current.emit('createRoom');
   }
 
   const handleJoin = () => {
-    if (!inputCode.trim() || inputCode.trim() === '') {
-      toast.error("Please enter a name and room code to join.")
+    if (!inputName.trim() || inputName.trim() === '') {
+      toast.error("Please enter your name to join.")
       return;
     }
-    console.log("Joining");
-    
-    socket.emit('join-room', JSON.stringify({roomId:inputCode.toUpperCase(),inputName}))
+    if (!inputCode.trim() || inputCode.trim() === '') {
+      toast.error("Please enter a room code to join.")
+      return;
+    }
+    if (!socketRef.current) {
+      console.error('❌ Socket not connected');
+      toast.error('Not connected to server');
+      return;
+    }
+
+    // Set current user immediately when joining
+    const userName = inputName.trim();
+    setCurrentUser(userName);
+    console.log('👤 Setting current user to:', userName);
+
+    const joinData = {
+      roomId: inputCode.toUpperCase(),
+      name: userName
+    };
+
+    console.log("📤 Joining room with:", joinData);
+    socketRef.current.emit('join-room', JSON.stringify(joinData));
   }
 
-  const copyToClickboard = ()=> {
+  // const handleSendMessage = () => {
+  //   if (!message.trim()) {
+  //     toast.error("Please enter a message to send.")
+  //     return;
+  //   }
+  //   if (!socketRef.current) {
+  //     console.error('❌ Socket not connected');
+  //     toast.error('Not connected to server');
+  //     return;
+  //   }
+
+  //   const messageData = {
+  //     roomId: room,
+  //     userId: inputName,
+  //     message: message
+  //   };
+
+  //   console.log("📤 Sending message:", messageData);
+  //   socketRef.current.emit('sendMessage', JSON.stringify(messageData));
+  //   setMessage(''); // Clear the message input after sending
+
+  // }
+
+  const copyToClickboard = () => {
     navigator.clipboard.writeText(room)
     toast("✅ Copied to clipboard!")
+  }
+
+  const sendMessage = () => {
+    if (!messageInput.trim()) {
+      return;
+    }
+
+    if (!socketRef.current) {
+      console.error('❌ Socket not connected');
+      toast.error('Not connected to server');
+      return;
+    }
+
+    // Ensure we have a valid current user
+    const senderName = currentUser || inputName || 'Anonymous';
+
+    const messageData = {
+      roomId: room,
+      content: messageInput,
+      senderId: socketRef.current.id,
+      sender: senderName
+    };
+
+    console.log('📤 Sending message:', messageData);
+    console.log('👤 Current user check:', { currentUser, inputName, senderName });
+
+    socketRef.current.emit('sendMessage', messageData);
+    setMessageInput(''); // Clear input after sending
   }
 
   return (
@@ -99,7 +230,7 @@ const Page = () => {
 
               <div className={`px-3 py-1 rounded-full text-sm ${isConnected ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                 }`}>
-                {isConnected ? '🟢 Connected' : '🔴 Disconnected'}
+                {isConnected ? '🟢 Connected' : '🔴 Connecting...'}
               </div>
             </div>
 
@@ -149,21 +280,71 @@ const Page = () => {
             )
               :
               (
-                <div>
+                <div className='space-y-6'>
                   <div className="flex items-center justify-between text-sm text-muted-foreground bg-muted p-3 rounded-lg">
-                  <div className="flex items-center gap-2">
-                    <span>Room Code: <span className="font-mono font-bold">{room}</span></span>
+                    <div className="flex items-center gap-2">
+                      <span>Room Code: <span className="font-mono font-bold">{room}</span></span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={copyToClickboard}
+                        className="h-6 w-6"
+                      >
+                        <Copy className="h-3 w-3" />
+                      </Button>
+                    </div>
+                    <span>Users: {userSize}</span>
+                  </div>
+
+                  {/* Messages Area */}
+                  <div className="h-[430px] overflow-y-auto border rounded-lg p-4 space-y-2">
+                    {!messages || messages.length === 0 ? (
+                      <p className="text-gray-500 italic text-center">No messages yet... Start the conversation!</p>
+                    ) : (
+                      messages.filter(msg => msg && msg.sender && msg.content).map((msg, index) => (
+                        <div key={msg.id || index} className={`flex ${msg.sender === inputName ? 'justify-end' : 'justify-start'
+                          }`}>
+                          <div className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${msg.sender === inputName
+                            ? 'bg-blue-500 text-white'
+                            : 'bg-gray-200 text-gray-900'
+                            }`}>
+                            <div className={`text-xs mb-1 ${msg.sender === inputName ? 'text-blue-100' : 'text-gray-500'
+                              }`}>
+                              <div className='flex items-center justify-between'>
+                                <span className="font-semibold">{msg.sender}</span>
+                                <span className="ml-2">{new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                              </div>
+                            </div>
+                            <div className={`break-words ${msg.sender === inputName ? 'justify-end' : 'justify-start'}`}>{msg.content}</div>
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+
+                  {/* Message Input */}
+                  <div className="flex gap-2">
+                    <Input
+                      value={messageInput}
+                      onChange={(e) => setMessageInput(e.target.value)}
+                      placeholder="Type a message..."
+                      className="text-lg py-5"
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          sendMessage();
+                        }
+                      }}
+                      disabled={!isConnected}
+                    />
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={copyToClickboard}
-                      className="h-6 w-6"
+                      onClick={sendMessage}
+                      size="lg"
+                      className="px-8"
+                      disabled={!isConnected}
                     >
-                      <Copy className="h-3 w-3" />
+                      Send
                     </Button>
                   </div>
-                  {/* <span>Users: {users}</span> */}
-                </div>
                 </div>
               )}
 
