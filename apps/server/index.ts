@@ -26,9 +26,9 @@ const server = createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: "*", // Temporary wildcard for testing
+        origin: "https://chatterz.mayankraja.tech", // Temporary wildcard for testing
         methods: ["GET", "POST"],
-        credentials: false // Must be false when using wildcard
+        credentials: true // Must be false when using wildcard
     }
 });
 
