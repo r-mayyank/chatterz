@@ -26,7 +26,12 @@ const server = createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3001", "https://chatterz-client-nu.vercel.app/", "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app/", "https://chatterz-client-801yoa2wb-theluebluegaming-gmailcoms-projects.vercel.app/"],
+        origin: [
+            "http://localhost:3001", 
+            "https://chatterz-client-nu.vercel.app",
+            "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app",
+            "https://chatterz-client-801yoa2wb-theluebluegaming-gmailcoms-projects.vercel.app"
+        ],
         methods: ["GET", "POST"],
         credentials: true
     }
@@ -37,7 +42,16 @@ app.use(express.json());
 
 // Basic route
 app.get("/", (req, res) => {
-    res.json({ message: "Chatterz server is running!" });
+    console.log(`📡 Request from origin: ${req.headers.origin}`);
+    res.json({ 
+        message: "Chatterz server is running!",
+        allowedOrigins: [
+            "http://localhost:3001", 
+            "https://chatterz-client-nu.vercel.app",
+            "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app",
+            "https://chatterz-client-801yoa2wb-theluebluegaming-gmailcoms-projects.vercel.app"
+        ]
+    });
 });
 
 const rooms = new Map<string, RoomData>(); // Store rooms and their members
