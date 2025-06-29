@@ -6,6 +6,7 @@ import { io, Socket } from 'socket.io-client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Copy, MessageCircle } from 'lucide-react'
 import { toast } from 'sonner'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 
 
 const SOCKET_URL = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000'
@@ -72,14 +73,14 @@ const Page = () => {
         userSize: data.userSize, // Fixed: Changed from usersize to userSize
         messages: data.messages // Fixed: Changed from message to messages
       });
-      
+
       // Initialize messages from room history (if any)
       if (data.messages && Array.isArray(data.messages)) {
         setMessages(data.messages); // Set existing messages
       } else {
         setMessages([]); // Initialize with empty array
       }
-      
+
       setJoined(true);
       setUserSize(data.userSize); // Fixed: Changed from usersize to userSize
       setUsers(data.users);
@@ -216,6 +217,9 @@ const Page = () => {
 
   return (
     <>
+      <div className="fixed top-4 right-4 z-50">
+        <ThemeToggle />
+      </div>
       <div className="container mx-auto max-w-2xl p-4 h-screen flex items-center justify-center">
         <Card className='w-full'>
           <CardHeader className='space-y-1'>
