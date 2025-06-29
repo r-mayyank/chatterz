@@ -25,10 +25,12 @@ const server = createServer(app);
 // Initialize Socket.IO
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:3001", "https://real-time-chat-liard.vercel.app"],// Client URL
-
-        // origin: process.env.NEXT_PUBLIC_IS_PRODUCTION === 'true' ? process.env.NEXT_PUBLIC_PRODUCTION_FE_URL  : "http://localhost:3001", // Client URL
-        methods: ["GET", "POST"]
+        origin: [
+            "http://localhost:3001", 
+            "https://chatterz-client-nu.vercel.app"
+        ],
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
