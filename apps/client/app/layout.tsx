@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -30,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${jetbrainsMono.variable} font-mono`}>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${jetbrainsMono.variable} font-mono`}>
         <ThemeProvider
           attribute="class" 
           defaultTheme="system" 

@@ -27,6 +27,15 @@
 - 📋 **Easy Sharing** - Copy room codes to clipboard
 - 🌙 **Theme Support** - Built-in dark/light theme switching
 
+## 🌟 Future Features Planning
+- Setting room to public and private, and showing public rooms on dashboard
+- User joining message in group
+- Displaying all users in group in option to private message
+- Replying to messages
+- Attachments 
+- Voice messages
+- May bring voice and video call
+
 ## 🛠️ Tech Stack
 
 ### Frontend
@@ -116,15 +125,6 @@ chatterz/
 - **Message history** loads when joining existing rooms
 - **Auto-scroll** to latest messages
 - **Responsive design** works on mobile and desktop
-
-## 🌟 Future features
-- User joining message in group
-- Replying to messages
-- Attachments 
-- Voice messages
-- May bring voice and video call
-
-*Add screenshots of your application here*
 
 ## 🔧 Available Scripts
 

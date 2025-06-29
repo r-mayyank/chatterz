@@ -120,6 +120,16 @@ const Page = () => {
     };
   }, []); // Empty dependency array - runs only once
 
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
   const createRoom = () => {
     if (!socketRef.current) {
       console.error('❌ Socket not connected');
@@ -324,6 +334,7 @@ const Page = () => {
                         </div>
                       ))
                     )}
+                    <div ref={messagesEndRef} />
                   </div>
 
                   {/* Message Input */}
