@@ -60,6 +60,7 @@ const Page = () => {
     socket.on("roomCreated", (code) => {
       console.log('🏠 Room created:', code);
       setRoom(code);
+      copyToClickboard();
       setIsLoading(false);
     })
 
@@ -276,6 +277,11 @@ const Page = () => {
                   className='w-full py-5'
                   value={inputName}
                   onChange={(e) => setInputName(e.target.value)}
+                  onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleJoin();
+                      }
+                    }}
                   disabled={!isConnected}
                 />
                 <div className='w-full flex items-center gap-2'>
@@ -283,6 +289,11 @@ const Page = () => {
                     placeholder="Enter Room Code"
                     value={inputCode}
                     onChange={(e) => setInputCode(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        handleJoin();
+                      }
+                    }}
                     className="w-full py-5"
                     disabled={!isConnected}
                   />
