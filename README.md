@@ -1,135 +1,175 @@
-# Turborepo starter
+# 💬 Chatterz
 
-This Turborepo starter is maintained by the Turborepo core team.
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-15.3.0-black?style=for-the-badge&logo=next.js&logoColor=white" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Socket.io-4.8.1-010101?style=for-the-badge&logo=socketdotio&logoColor=white" alt="Socket.io" />
+  <img src="https://img.shields.io/badge/TypeScript-5.8.2-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-4.1.11-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+  <img src="https://img.shields.io/badge/Express.js-4.18.2-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js" />
+</div>
 
-## Using this example
+<br />
 
-Run the following command:
+<div align="center">
+  <h3>🚀 Real-time chat application with temporary rooms</h3>
+  <p>A modern, responsive chat app built with Next.js and Socket.IO featuring temporary rooms that expire when all users leave.</p>
+</div>
 
-```sh
-npx create-turbo@latest
-```
+## ✨ Features
 
-## What's inside?
+- 🏠 **Create Temporary Rooms** - Generate unique room codes instantly
+- 👥 **Real-time Messaging** - Send and receive messages instantly
+- 🔒 **Room-based Chat** - Private conversations in dedicated rooms
+- 📱 **Responsive Design** - Beautiful UI that works on all devices
+- ⚡ **Auto-cleanup** - Rooms automatically expire when empty
+- 🎨 **Modern UI** - Clean, intuitive interface with Tailwind CSS
+- 🔄 **Live User Count** - See how many users are in your room
+- 📋 **Easy Sharing** - Copy room codes to clipboard
+- 🌙 **Theme Support** - Built-in dark/light theme switching
 
-This Turborepo includes the following packages/apps:
+## 🛠️ Tech Stack
 
-### Apps and Packages
+### Frontend
+- **[Next.js 15.3.0](https://nextjs.org/)** - React framework with App Router
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript
+- **[Tailwind CSS 4.1.11](https://tailwindcss.com/)** - Utility-first CSS framework
+- **[Radix UI](https://www.radix-ui.com/)** - Headless UI components
+- **[Socket.io-client 4.8.1](https://socket.io/)** - Real-time client-side communication
+- **[Lucide React](https://lucide.dev/)** - Beautiful icons
+- **[Sonner](https://sonner.emilkowal.ski/)** - Toast notifications
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+### Backend
+- **[Node.js](https://nodejs.org/)** - JavaScript runtime
+- **[Express.js 4.18.2](https://expressjs.com/)** - Web application framework
+- **[Socket.IO 4.7.5](https://socket.io/)** - Real-time server-side communication
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe development
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### Development Tools
+- **[Turbo](https://turbo.build/)** - High-performance build system
+- **[ESLint](https://eslint.org/)** - Code linting
+- **[Prettier](https://prettier.io/)** - Code formatting
 
-### Utilities
+## 🚀 Quick Start
 
-This Turborepo has some additional tools already setup for you:
+### Prerequisites
+- **Node.js** 18+ 
+- **npm** 10+
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### Installation
 
-### Build
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/chatterz.git
+   cd chatterz
+   ```
 
-To build all apps and packages, run the following command:
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-```
-cd my-turborepo
+3. **Start the development servers**
+   ```bash
+   npm run dev
+   ```
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+4. **Open your browser**
+   - **Client**: http://localhost:3001
+   - **Server**: http://localhost:3000
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
-
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
+## 📁 Project Structure
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+chatterz/
+├── 📁 apps/
+│   ├── 📁 client/          # Next.js frontend application
+│   │   ├── 📁 app/         # App Router pages and layouts
+│   │   ├── 📁 components/  # Reusable UI components
+│   │   └── 📁 public/      # Static assets
+│   └── 📁 server/          # Express.js backend server
+├── 📁 packages/
+│   ├── 📁 eslint-config/   # Shared ESLint configuration
+│   ├── 📁 typescript-config/ # Shared TypeScript configuration
+│   └── 📁 ui/              # Shared UI component library
+├── 📄 package.json         # Root package configuration
+├── 📄 turbo.json          # Turbo build configuration
+└── 📄 README.md           # Project documentation
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+## 🎮 How to Use
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+### Creating a Room
+1. Click **"Create New Room"**
+2. Copy the generated room code
+3. Share the code with friends
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+### Joining a Room
+1. Enter your name
+2. Enter the room code
+3. Click **"Join Room"**
+4. Start chatting!
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+### Features in Action
+- **Real-time messaging** with instant delivery
+- **User count** updates live as people join/leave
+- **Message history** loads when joining existing rooms
+- **Auto-scroll** to latest messages
+- **Responsive design** works on mobile and desktop
 
-## Useful Links
+## 🌟 Screenshots
 
-Learn more about the power of Turborepo:
+*Add screenshots of your application here*
 
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+## 🔧 Available Scripts
+
+In the project root:
+
+- `npm run dev` - Start both client and server in development mode
+- `npm run build` - Build the entire project
+- `npm run lint` - Run ESLint across all packages
+- `npm run check-types` - Run TypeScript type checking
+- `npm run format` - Format code with Prettier
+
+## 🏗️ Architecture
+
+### Real-time Communication
+- **Socket.IO** handles bidirectional communication
+- **Room-based** messaging with automatic cleanup
+- **Event-driven** architecture for scalability
+
+### State Management
+- **React hooks** for local state
+- **Socket events** for real-time updates
+- **TypeScript interfaces** for type safety
+
+### Styling
+- **Tailwind CSS** for utility-first styling
+- **Radix UI** for accessible components
+- **Responsive design** with mobile-first approach
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 🙏 Acknowledgments
+
+- Built with ❤️ using modern web technologies
+- Icons by [Lucide](https://lucide.dev/)
+- UI components inspired by [shadcn/ui](https://ui.shadcn.com/)
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/yourusername">Your Name</a></p>
+  <p>⭐ Star this repo if you found it helpful!</p>
+</div>
