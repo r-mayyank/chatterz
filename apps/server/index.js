@@ -14,8 +14,14 @@ const server = (0, http_1.createServer)(app);
 // Initialize Socket.IO
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: "http://localhost:3001", // Client URL
-        methods: ["GET", "POST"]
+        origin: [
+            "http://localhost:3001", // Client URL
+            "https://chatterz.mayankraja.tech",
+            "https://chatterz-client-nu.vercel.app",
+            "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app",
+        ],
+        methods: ["GET", "POST"],
+        credentials: true 
     }
 });
 // Middleware
