@@ -2,6 +2,7 @@ import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { randomBytes } from 'crypto';
+import cors from "cors":
 
 interface Message {
     id: string;
@@ -22,6 +23,18 @@ const PORT = process.env.PORT || 3000;
 
 // Create HTTP server
 const server = createServer(app);
+
+const allowedOrigins = [
+    "https://chatterz.mayankraja.tech",
+    "https://chatterz-client-nu.vercel.app",
+    "https://chatterz-client-git-main-theluebluegaming-gmailcoms-projects.vercel.app",
+];
+
+app.use(cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
+}));
 
 // Initialize Socket.IO
 const io = new Server(server, {
